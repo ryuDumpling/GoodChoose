@@ -42,6 +42,6 @@ spring:
 
 aliyun:
   endpoint: oss-cn-beijing.aliyuncs.com
-  keyid: LTAI5tJW8o3dncebXmjNj6Cr
-  keysecret: kSNVYhPW3NY3EK2GKY54ssgoQbE7CZ
+  keyid:
+  keysecret: 
   bucketname: ryu-goodchoose
