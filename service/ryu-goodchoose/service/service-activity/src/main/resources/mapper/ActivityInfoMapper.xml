@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ryu.goodchoose.activity.mapper.ActivityInfoMapper">
+    <resultMap id="ActivityRuleMap" type="com.ryu.goodchoose.model.activity.ActivityRule" autoMapping="true"></resultMap>
+    <resultMap id="ActivitySkuMap" type="com.ryu.goodchoose.model.activity.ActivitySku" autoMapping="true"></resultMap>
+<!--    在activitySku表中查询正在活动且日期冲突的idList-->
+    <select id="selectSkuIdListExist" resultType="Long">
+        SELECT sku.sku_id
+        FROM activity_info info
+        INNER JOIN activity_sku sku ON info.id = sku.activity_id
+        <where>
+            <if test="skuIdList != null">
+                and sku.sku_id in 
+                <foreach collection="skuIdList" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            AND sku.is_deleted=0
+            AND info.is_deleted=0
+            AND NOW() BETWEEN info.start_time AND info.end_time
+        </where>
+    </select>
+<!-- 根据skuId查询商品参加的活动（在当前时间内）-->
+    <select id="findActivityRule" resultMap="ActivityRuleMap">
+        select
+            info.activity_type as activityType,
+            rule.id,rule.activity_id,rule.condition_amount,rule.condition_num,rule.benefit_amount,rule.benefit_discount,rule.is_deleted
+        from activity_info info
+                 inner join activity_sku sku on sku.activity_id = info.id
+                 inner join activity_rule rule on rule.activity_id = info.id
+        where
+            sku.sku_id = #{skuId}
+          AND sku.is_deleted=0
+          AND info.is_deleted=0
+          AND rule.is_deleted = 0
+          and now() between info.start_time and info.end_time
+        order by rule.condition_amount desc, rule.condition_num desc
+    </select>
+
+    <select id="selectCartActivity" resultMap="ActivitySkuMap">
+        SELECT info.id as activityId,
+               sku.sku_id as skuId
+        FROM activity_info info
+                 INNER JOIN activity_sku sku on info.id = sku.activity_id
+        <where>
+            AND info.is_deleted=0
+            AND sku.is_deleted=0
+            AND sku.sku_id IN
+                <foreach collection="skuIdList" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            AND NOW() BETWEEN info.start_time AND info.end_time
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "aliyun",
+      "type": "com.ryu.goodchoose.product.service.impl.FileUploadServiceImpl",
+      "sourceType": "com.ryu.goodchoose.product.service.impl.FileUploadServiceImpl"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}
