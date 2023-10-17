@@ -11,7 +11,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/shequ-activity?characterEncoding=utf-8&serverTimezone=GMT%2B8&userSSL=false
     username: root
-    password: 121233Syy,.
+    password: 
   rabbitmq:
     host: 192.168.149.88
     port: 5672
@@ -42,6 +42,6 @@ spring:
 
 aliyun:
   endpoint: oss-cn-beijing.aliyuncs.com
-  keyid: LTAI5tJW8o3dncebXmjNj6Cr
-  keysecret: kSNVYhPW3NY3EK2GKY54ssgoQbE7CZ
+  keyid:
+  keysecret:
   bucketname: ryu-goodchoose
